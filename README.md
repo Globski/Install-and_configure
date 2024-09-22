@@ -12,4 +12,4 @@ A repository for installation guides and configuration scripts for various devel
 - Regular updates to reflect the latest versions and best practices.
 
 ## License
-This project is open source and available under the [MIT License](./LICENCE).
+This project is open source and available under the [MIT License](./LICENSE).
