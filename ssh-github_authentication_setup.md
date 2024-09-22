@@ -99,7 +99,17 @@ If you encounter security issues with RSA, generate a new SSH key using Ed25519:
 # Generate a new Ed25519 SSH key
 ssh-keygen -t ed25519 -C "john.doe@gmail.com" -f ~/.ssh/id_ed25519 -N betty
 ```
+**Add SSH Key to the SSH Agent**
+Add your new SSH key to the SSH agent to manage your keys.
 
+```bash
+#!/usr/bin/env bash
+# Start the SSH agent and add the private key
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+cat ~/.ssh/id_ed25519.pub
+ssh -T git@github.com
+```
 ### Task 9: Configure Git Push Behavior
 
 When you clone a repository using the HTTPS URL, Git defaults to a push behavior called `matching`. This means that when you run `git push`, Git will attempt to push all local branches that have matching names on the remote. However, if you've set up SSH authentication later on, this can lead to confusion and warnings.
