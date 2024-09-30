@@ -1,11 +1,28 @@
 # Install and Configure - SSH Key for GitHub
 
-## Description
+## Table of Contents
+1. [Description](#description)
+2. [Tasks Overview](#tasks-overview)
+   - [0: Check for Existing SSH Key](#0-check-for-existing-ssh-key)
+   - [1: Generate a New SSH Key](#1-generate-a-new-ssh-key)
+   - [2: Add SSH Key to the SSH Agent](#2-add-ssh-key-to-the-ssh-agent)
+   - [3: Add SSH Key to Your GitHub Account](#3-add-ssh-key-to-your-github-account)
+   - [4: Test the SSH Connection](#4-test-the-ssh-connection)
+   - [5: Use SSH for Git Operations](#5-use-ssh-for-git-operations)
+   - [6: Set Permissions for SSH Files](#6-set-permissions-for-ssh-files)
+   - [7: Update Remote URL to Use SSH](#7-update-remote-url-to-use-ssh)
+   - [8: Generate a New SSH Key with Ed25519 (if needed)](#8-generate-a-new-ssh-key-with-ed25519-if-needed)
+   - [9: Configure Git Push Behavior](#9-configure-git-push-behavior)
+3. [Notes](#notes)
+
+---
+
+### Description
 This project provides a series of steps to create and configure an SSH key for GitHub authentication. By setting up an SSH key, you can interact with your GitHub repositories without entering your username and password every time.
 
-## Tasks Overview
+### Tasks Overview
 
-### 0: Check for Existing SSH Key
+#### 0: Check for Existing SSH Key
 Check if you already have an SSH key by listing files in the `.ssh` directory.
 
 ```bash
@@ -14,7 +31,7 @@ Check if you already have an SSH key by listing files in the `.ssh` directory.
 ls -al ~/.ssh
 ```
 
-### 1: Generate a New SSH Key
+#### 1: Generate a New SSH Key
 This script generates a new RSA SSH key pair with a specified email.
 
 ```bash
@@ -23,7 +40,7 @@ This script generates a new RSA SSH key pair with a specified email.
 ssh-keygen -t rsa -b 4096 -C "john.doe@gmail.com" -f ~/.ssh/id_rsa -N betty
 ```
 
-### 2: Add SSH Key to the SSH Agent
+#### 2: Add SSH Key to the SSH Agent
 Add your new SSH key to the SSH agent to manage your keys.
 
 ```bash
@@ -33,7 +50,7 @@ eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_rsa
 ```
 
-### 3: Add SSH Key to Your GitHub Account
+#### 3: Add SSH Key to Your GitHub Account
 Copy your SSH public key and add it to your GitHub account.
 
 ```bash
@@ -47,7 +64,7 @@ cat ~/.ssh/id_rsa.pub
 3. Paste the key into the "Key" field and give it a descriptive title.
 4. Click **Add SSH key**.
 
-### Task 4: Test the SSH Connection
+#### 4: Test the SSH Connection
 Verify that your SSH key is properly set up by testing the connection to GitHub.
 
 ```bash
@@ -61,7 +78,7 @@ You should see a message like:
 Hi username! You've successfully authenticated, but GitHub does not provide shell access.
 ```
 
-### Task 5: Use SSH for Git Operations
+#### 5: Use SSH for Git Operations
 When cloning a repository, ensure you use the SSH URL:
 
 ```bash
@@ -69,7 +86,7 @@ When cloning a repository, ensure you use the SSH URL:
 git clone git@github.com:username/repository.git
 ```
 
-### Task 6: Set Permissions for SSH Files
+#### 6: Set Permissions for SSH Files
 Ensure your `.ssh` directory and files have the correct permissions:
 
 ```bash
@@ -80,7 +97,7 @@ chmod 600 ~/.ssh/id_rsa
 chmod 644 ~/.ssh/id_rsa.pub
 ```
 
-### Task 7: Update Remote URL to Use SSH
+#### 7: Update Remote URL to Use SSH
 Check your Git remote URL and update it to use SSH if it is set to HTTPS:
 
 ```bash
@@ -91,7 +108,7 @@ git remote -v
 git remote set-url origin git@github.com:username/repository.git
 ```
 
-### Task 8: Generate a New SSH Key with Ed25519 (if needed)
+#### 8: Generate a New SSH Key with Ed25519 (if needed)
 If you encounter security issues with RSA, generate a new SSH key using Ed25519:
 
 ```bash
@@ -99,6 +116,7 @@ If you encounter security issues with RSA, generate a new SSH key using Ed25519:
 # Generate a new Ed25519 SSH key
 ssh-keygen -t ed25519 -C "john.doe@gmail.com" -f ~/.ssh/id_ed25519 -N betty
 ```
+
 **Add SSH Key to the SSH Agent**
 Add your new SSH key to the SSH agent to manage your keys.
 
@@ -110,11 +128,11 @@ ssh-add ~/.ssh/id_ed25519
 cat ~/.ssh/id_ed25519.pub
 ssh -T git@github.com
 ```
-### Task 9: Configure Git Push Behavior
 
+#### 9: Configure Git Push Behavior
 When you clone a repository using the HTTPS URL, Git defaults to a push behavior called `matching`. This means that when you run `git push`, Git will attempt to push all local branches that have matching names on the remote. However, if you've set up SSH authentication later on, this can lead to confusion and warnings.
 
-#### Why the Warning Occurs
+**Why the Warning Occurs**
 
 If you initially clone a repository using HTTPS and later switch to using SSH for pushing changes, you might encounter a warning regarding the `push.default` setting. This happens because:
 
@@ -122,7 +140,7 @@ If you initially clone a repository using HTTPS and later switch to using SSH fo
 
 2. **Push Behavior**: The default `matching` behavior can be problematic when your local branches don’t correspond to the remote branches. For example, if you have a local branch named `feature` but the remote only has `main`, a `git push` may not behave as expected.
 
-#### Recommended Solution
+**Recommended Solution**
 
 To resolve these issues and streamline your workflow, it's advisable to set the push behavior to `simple`. This configuration ensures that:
 
@@ -136,15 +154,15 @@ You can configure this by running the following command:
 git config --global push.default simple
 ```
 
-#### Benefits of Using `simple`
+**Benefits of Using `simple`**
 
 1. **Clarity**: You’ll only push your current branch, reducing the risk of pushing changes to unintended branches.
 2. **Ease of Use**: If no upstream branch is set, Git will inform you, allowing you to easily establish the correct connection.
 3. **Streamlined Workflow**: This behavior is particularly useful when transitioning from HTTPS to SSH, as it prevents confusion and ensures your pushes are directed correctly.
 
 By setting your push behavior to `simple`, you can avoid confusion stemming from using different authentication methods and ensure a smoother experience when pushing your changes.
-## Notes
+
+### Notes
 - Make sure to replace `username` and `repository` with your actual GitHub username and repository name.
 - Ensure you have the correct permissions for your SSH keys to maintain security.
 - If you're working with a private Git server, ensure your public key is added to the `~/.ssh/authorized_keys` file on that server.
-
