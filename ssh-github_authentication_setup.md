@@ -1,5 +1,9 @@
 # Install and Configure - SSH Key for GitHub
 
+
+### Description
+This project provides a series of steps to create and configure an SSH key for GitHub authentication. By setting up an SSH key, you can interact with your GitHub repositories without entering your username and password every time.
+
 ## Table of Contents
 1. [Description](#description)
 2. [Tasks Overview](#tasks-overview)
@@ -14,11 +18,6 @@
    - [8: Generate a New SSH Key with Ed25519 (if needed)](#8-generate-a-new-ssh-key-with-ed25519-if-needed)
    - [9: Configure Git Push Behavior](#9-configure-git-push-behavior)
 3. [Notes](#notes)
-
----
-
-### Description
-This project provides a series of steps to create and configure an SSH key for GitHub authentication. By setting up an SSH key, you can interact with your GitHub repositories without entering your username and password every time.
 
 ### Tasks Overview
 
